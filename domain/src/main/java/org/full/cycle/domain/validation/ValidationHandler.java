@@ -2,7 +2,6 @@ package org.full.cycle.domain.validation;
 
 import java.util.List;
 
-// É uma interface fluente, que pode ser chamada a propria instancia e encadear metodos
 public interface ValidationHandler {
 
     ValidationHandler append(Error anError);

@@ -17,7 +17,6 @@ public class Category extends AggregateRoot<CategoryID> {
     private Instant deletedAt;
 
     private Category(
-            // Tem que ser final pois ele é imutável, o parametro que veio é o que vai ficar
             final CategoryID anId,
             final String aName,
             final String aDescription,
@@ -45,5 +44,38 @@ public class Category extends AggregateRoot<CategoryID> {
     @Override
     public void validate(final ValidationHandler handler) {
         new CategoryValidator(this, handler).validate();
+    }
+
+    public Category activate(){
+        this.deletedAt = null;
+        this.active = true;
+        this.updatedAt = Instant.now();
+        return this;
+    }
+
+    public Category deactivate(){
+        if (getDeletedAt() == null) {
+            this.deletedAt = Instant.now();
+        }
+
+        this.active = false;
+        this.updatedAt = Instant.now();
+        return this;
+    }
+
+    public Category update(
+            final String aName,
+            final String aDescription,
+            final boolean isActive
+    ){
+        if (isActive) {
+            activate();
+        }else {
+            deactivate();
+        }
+        this.name = aName;
+        this.description = aDescription;
+        this.updatedAt= Instant.now();
+        return this;
     }
 }

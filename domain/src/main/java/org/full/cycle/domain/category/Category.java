@@ -2,9 +2,9 @@ package org.full.cycle.domain.category;
 
 import lombok.Getter;
 import org.full.cycle.domain.AggregateRoot;
+import org.full.cycle.domain.validation.ValidationHandler;
 
 import java.time.Instant;
-import java.util.UUID;
 
 // especificando que a classe categoria é um agregado
 @Getter
@@ -39,5 +39,11 @@ public class Category extends AggregateRoot<CategoryID> {
         final var id = CategoryID.unique();
         final var now = Instant.now();
         return new Category(id, aName, aDescription, isActive, now, now, null);
+    }
+
+
+    @Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();
     }
 }

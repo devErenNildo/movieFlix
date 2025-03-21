@@ -1,6 +1,7 @@
 package org.full.cycle.domain;
 
 import lombok.EqualsAndHashCode;
+import org.full.cycle.domain.validation.ValidationHandler;
 
 import java.util.Objects;
 
@@ -23,4 +24,7 @@ public abstract class Entity<ID extends Identifier> {
     public ID getId(){
         return id;
     }
+
+    // validação na classe entity pois é a entidade mais abstrata
+    public abstract void validate(ValidationHandler handler);
 }
